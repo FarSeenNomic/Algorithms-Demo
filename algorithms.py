@@ -46,7 +46,9 @@ def network_sort(arr, o=0):
 
 def stooge_sort(arr):
     def nodulate(stp, enp):
-        if enp-stp == 1:
+        if enp-stp == 0:
+            return
+        elif enp-stp == 1:
             return
         elif enp-stp == 2:
             if arr[stp] > arr[enp]:
@@ -352,27 +354,27 @@ Bitonic sort
 stalin sort
 """
 
-#network_sort, stooge_sort, 
-sorts = [
-    # name           function that given the size (length = 1<<size) returns the size
-    #[counting_sort,  lambda s:math.exp(0.55*s-5.96)],
-    #[quicksort_oop,  lambda s:math.exp(0.64*s-6.07)],
-    #[radix_sort_py,  lambda s:math.exp(0.70*s-6.81)],
-    #[radix_sort_cpp, lambda s:math.exp(0.70*s-6.81)],
+from collections import namedtuple
+sorting_fuction = namedtuple('sorting_fuction', 'function eta')
 
-    #[quicksort,      lambda s:math.exp(0.79*s-7.44)],
-    #[sorted,         lambda s:math.exp(0.78*s-10.35)],
-    #[mergesort,      lambda s:math.exp(0.79*s-6.94)],
-    #[heapsort,       lambda s:math.exp(0.80*s-6.78)],
-    [comb_sort,      lambda s:math.exp(0.84*s-7.72)],
-    #[shellsort,      lambda s:math.exp(0.98*s-8.86)],
-    #[insertion_sort, lambda s:math.exp(1.36*s-10.16)],
-    #[selection_sort, lambda s:math.exp(1.36*s-10.43)],
-    #[mergesort_inplace, lambda s:math.exp(1.28*s-9.52)],
-    #[bubble_sort,    lambda s:math.exp(1.39*s-9.68)],
-    #[cocktail_sort,  lambda s:math.exp(1.46*s-10.51)],
-    #[stooge_sort,     lambda s:math.exp(1.91*s-9.20)],
-    
+sorts = [
+    # name              function that given the size (length = 1<<size) returns the size
+    sorting_fuction(counting_sort,     lambda s:0.12590966103887818 + 0.0001407200845374504*s),
+    sorting_fuction(radix_sort_py,     lambda s:0.00031232545846613*s**0.91436832994485 ),
+    sorting_fuction(quicksort_oop,     lambda s:0.00145718559191774*s**0.97184412899861 ),
+    sorting_fuction(radix_sort_cpp,    lambda s:0.00133875127950064*s**0.97349651014333 ),
+    sorting_fuction(quicksort,         lambda s:0.00066252394136697*s**1.12818705558610 ),
+    sorting_fuction(sorted,            lambda s:0.00003279781910071*s**1.13353352017700 ),
+    sorting_fuction(mergesort,         lambda s:0.00106095999695890*s**1.13649341850985 ),
+    sorting_fuction(heapsort,          lambda s:0.00093884606337985*s**1.21022819271525 ),
+    sorting_fuction(comb_sort,         lambda s:0.00039582242312576*s**1.23196593642214 ),
+    sorting_fuction(shellsort,         lambda s:0.00018230709723320*s**1.35183161242285 ),
+    sorting_fuction(mergesort_inplace, lambda s:0.00017102099095920*s**1.66000746488193 ),
+    sorting_fuction(selection_sort,    lambda s:0.00006167057579155*s**1.80813353046285 ),
+    sorting_fuction(insertion_sort,    lambda s:0.00004837195814484*s**1.90217391392381 ),
+    sorting_fuction(cocktail_sort,     lambda s:0.00006015288612914*s**1.95106035784034 ),
+    sorting_fuction(bubble_sort,       lambda s:0.00006295164470033*s**1.97910176019928 ),
+    sorting_fuction(stooge_sort,       lambda s:0.00015517254318294*s**2.68735652930718 ),
 ]
 
 #sorts = []
@@ -385,13 +387,8 @@ if __name__ == '__main__':
         times it
         returns the time in milliseconds
         """
-        data = [random.randint(100, 1000) for _ in range(1 << size)]
+        data = [random.randint(100, 1000) for _ in range(size)]
         return 1000/num*timeit.timeit(lambda:func(data.copy()), number=num)
-
-    #for size in range(1, 10):
-    #    data = [random.randint(100, 1000) for _ in range(2 << size)]
-    #    for func, eta in sorts:
-    #        print(size, time(func, data))
 
     # 100% random data
     # data mostly sorted
@@ -400,17 +397,26 @@ if __name__ == '__main__':
     # data sorted, reversed
 
     for func, eta in sorts:
-        print(func.__name__)
+        print(f'"{func.__name__}",')
+        print("{")
+        for binsize in range(3, 20):
+            t = time(func, 1<<binsize)
+            print(f"{{{1<<binsize},{t}}},")
+            if t > 10:
+                break
+        print("},")
+        continue
+        # pass to other code for analysis
+
         size_high = 6
         while 20 * eta(size_high) < 1000:
             size_high += 1
-        #size_high -= 1
+        size_high -= 1
         size_low = int(size_high / 2)
-        print(size_high)
 
         time_s8 = time(func, size_low)
         time_s10 = time(func, size_high)
-        # functions are probably in the form t = m*exp(s)+b
+        # functions are probably in the form t = exp(m*s+b)
 
         # t == Exp[m * s + b]
         m = -(math.log(time_s10)-math.log(time_s8))/(size_low-size_high)
