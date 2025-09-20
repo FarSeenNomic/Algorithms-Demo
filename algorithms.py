@@ -342,6 +342,21 @@ def quicksort(arr):
     sort(0, len(arr)-1)
     return arr
 
+import random
+def bogosort(arr):
+    while arr != sorted(arr):
+        arr = random.sample(arr, k=len(arr))
+    return arr
+
+def bucket_sort(arr, k=6, nextSort=bucket_sort):
+    buckets = {}
+    m = max(arr)+1
+    for i in arr:
+        buckets[int(k * i / m)].append(i)
+    for i in range(k): 
+        nextSort(buckets[i])
+    return [].extend(i for i in buckets)
+
 """
 Todo:
 binary insertion
@@ -359,22 +374,27 @@ sorting_fuction = namedtuple('sorting_fuction', 'function eta')
 
 sorts = [
     # name              function that given the size (length = 1<<size) returns the size
+    # From class
+    sorting_fuction(bubble_sort,       lambda s:0.00006295164470033*s**1.97910176019928 ),
     sorting_fuction(counting_sort,     lambda s:0.12590966103887818 + 0.0001407200845374504*s),
-    sorting_fuction(radix_sort_py,     lambda s:0.00031232545846613*s**0.91436832994485 ),
-    sorting_fuction(quicksort_oop,     lambda s:0.00145718559191774*s**0.97184412899861 ),
-    sorting_fuction(radix_sort_cpp,    lambda s:0.00133875127950064*s**0.97349651014333 ),
-    sorting_fuction(quicksort,         lambda s:0.00066252394136697*s**1.12818705558610 ),
-    sorting_fuction(sorted,            lambda s:0.00003279781910071*s**1.13353352017700 ),
-    sorting_fuction(mergesort,         lambda s:0.00106095999695890*s**1.13649341850985 ),
     sorting_fuction(heapsort,          lambda s:0.00093884606337985*s**1.21022819271525 ),
+    sorting_fuction(insertion_sort,    lambda s:0.00004837195814484*s**1.90217391392381 ),
+    sorting_fuction(mergesort,         lambda s:0.00106095999695890*s**1.13649341850985 ),
+    sorting_fuction(mergesort_inplace, lambda s:0.00017102099095920*s**1.66000746488193 ),
+    sorting_fuction(quicksort,         lambda s:0.00066252394136697*s**1.12818705558610 ),
+    sorting_fuction(quicksort_oop,     lambda s:0.00145718559191774*s**0.97184412899861 ),
+    sorting_fuction(bucket_sort,       lambda s:0.10000000000000000*s**0.99999999999999 ),
+    sorting_fuction(radix_sort_py,     lambda s:0.00031232545846613*s**0.91436832994485 ),
+    sorting_fuction(radix_sort_cpp,    lambda s:0.00133875127950064*s**0.97349651014333 ),
+
+    # Out of class
+    sorting_fuction(sorted,            lambda s:0.00003279781910071*s**1.13353352017700 ),
     sorting_fuction(comb_sort,         lambda s:0.00039582242312576*s**1.23196593642214 ),
     sorting_fuction(shellsort,         lambda s:0.00018230709723320*s**1.35183161242285 ),
-    sorting_fuction(mergesort_inplace, lambda s:0.00017102099095920*s**1.66000746488193 ),
     sorting_fuction(selection_sort,    lambda s:0.00006167057579155*s**1.80813353046285 ),
-    sorting_fuction(insertion_sort,    lambda s:0.00004837195814484*s**1.90217391392381 ),
     sorting_fuction(cocktail_sort,     lambda s:0.00006015288612914*s**1.95106035784034 ),
-    sorting_fuction(bubble_sort,       lambda s:0.00006295164470033*s**1.97910176019928 ),
     sorting_fuction(stooge_sort,       lambda s:0.00015517254318294*s**2.68735652930718 ),
+    sorting_fuction(bogosort,          lambda s:s ** 5 ),
 ]
 
 #sorts = []
@@ -387,7 +407,12 @@ if __name__ == '__main__':
         times it
         returns the time in milliseconds
         """
+        # Random
         data = [random.randint(100, 1000) for _ in range(size)]
+        # Sorted
+        #data = list(range(size))
+        # Reversed
+        #data = list(range(size)).reverse()
         return 1000/num*timeit.timeit(lambda:func(data.copy()), number=num)
 
     # 100% random data
@@ -402,8 +427,10 @@ if __name__ == '__main__':
         for binsize in range(3, 20):
             t = time(func, 1<<binsize)
             print(f"{{{1<<binsize},{t}}},")
-            if t > 10:
+            if t > 7:
                 break
+            t = time(func, 3<<(binsize-1))
+            print(f"{{{3<<(binsize-1)},{t}}},")
         print("},")
         continue
         # pass to other code for analysis
