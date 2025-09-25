@@ -8,6 +8,8 @@ import matplotlib
 import time
 import sys
 import random
+import algorithms
+
 
 
 # Creating the start window
@@ -98,11 +100,7 @@ def randomList(size):
         return randList
     else:
         return 0
-
-
-
-
-
+    
 
 #Setting Star Window
 def StartWindow():
@@ -155,7 +153,7 @@ def StartWindow():
                     algo_list["Radix Sort"] = "Radix Sort algo"
                 if event.ui_object_id == "#option_bucket_sort":
                     algo_list["Bucket Sort"] = "Bucket Sort algo"
-                if event.ui_object_id == "#option_quickSelection_sort":
+                if event.ui_object_id == "#option_quickSelect_sort":
                     algo_list["Quick Select Sort"] = "Quick Select sort algo"
                 if event.ui_object_id == "option_binarySearch_sort":
                     algo_list["Binary Search Sort"] = "Binary Search Sort algo"
@@ -177,7 +175,7 @@ def StartWindow():
                     del algo_list["Radix Sort"]
                 if event.ui_object_id == "#option_bucket_sort":
                     del algo_list["Bucket Sort"]
-                if event.ui_object_id == "#option_quickSelection_sort":
+                if event.ui_object_id == "#option_quickSelect_sort":
                     del algo_list["Quick Select Sort"]
                 if event.ui_object_id == "option_binarySearch_sort":
                     del algo_list["Binary Search Sort"]
