@@ -348,13 +348,24 @@ def bogosort(arr):
         arr = random.sample(arr, k=len(arr))
     return arr
 
-def bucket_sort(arr, k=6, nextSort=bucket_sort):
-    buckets = {}
-    m = max(arr)+1
+def bucket_sort(arr, k=6, nextSort=None):
+    if not arr:
+        return []
+    if min(arr) == max(arr):
+        return arr
+    buckets = []
+    for _ in range(k):
+        buckets.append([])
+    r = max(arr)-min(arr)+1
     for i in arr:
-        buckets[int(k * i / m)].append(i)
-    for i in range(k): 
-        nextSort(buckets[i])
+        # buckets' are arranged from min to max, not 0 to max
+        buckets[int(k * (i-min(arr)) / r)].append(i)
+    print(buckets)
+    for i in range(k):
+        if nextSort:
+            nextSort(buckets[i])
+        else:
+            bucket_sort(buckets[i])
     return [].extend(i for i in buckets)
 
 """
@@ -373,7 +384,7 @@ from collections import namedtuple
 sorting_fuction = namedtuple('sorting_fuction', 'function eta')
 
 sorts = [
-    # name              function that given the size (length = 1<<size) returns the size
+    # name              function that given the size (# of elements) returns the time (ms)
     # From class
     sorting_fuction(bubble_sort,       lambda s:0.00006295164470033*s**1.97910176019928 ),
     sorting_fuction(counting_sort,     lambda s:0.12590966103887818 + 0.0001407200845374504*s),
