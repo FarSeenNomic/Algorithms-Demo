@@ -12,7 +12,7 @@ import algorithms
 
 # Creating the start window
 pg.init()
-width, height = 1200, 700
+width, height = 800, 700
 screen = pg.display.set_mode((width, height)) # Seting the screen size
 pg.display.set_caption("Algorithms Project") # Window Name
 
@@ -32,39 +32,35 @@ white = (255, 255, 255)
 
 # Project Tile
 project_title = pygame_gui.elements.UILabel(
-    relative_rect=pg.Rect((500, 10), (200, 25)),
+    relative_rect=pg.Rect((width/2-100, 10), (200, 25)),
     manager=manager,
-    object_id="#project_title",
     text="Sorting Algorithm Visualizer",
     )
 
 # Input Instructions
 input_title = pygame_gui.elements.UILabel(
-    relative_rect=pg.Rect((10, 75), (510, 25)),  # Position and size
+    relative_rect=pg.Rect((50, 75), (505, 25)),  # Position and size
     manager=manager,
-    text="Input a list of numbers seperated by commas and begins and starts with []",
+    text="Input a list of numbers seperated by commas, starting and ending with []",
     )
 
 # List Input
 List_Input = pygame_gui.elements.UITextEntryBox(
     relative_rect=pg.Rect((50, 100), (700, 100)),
     manager=manager,
-    object_id="#list_input",
     )
 
 # Generate List instructions
-list_Instructions = pygame_gui.elements.UILabel(
-    relative_rect=pg.Rect((50, 225), (700, 25)),
+pygame_gui.elements.UILabel(
+    relative_rect=pg.Rect((50, 225), (429, 25)),
     manager=manager,
-    object_id="#list_instruction",
-    text="You can generate a list of number by inputing the size and which type you want by pressing the button",
+    text="Pressing the button generates a list of number of the given size",
     )
 
 # Set Generate list length size input
 list_Size = pygame_gui.elements.UITextEntryLine(
     relative_rect=pg.Rect((50, 250), (100, 25)),
     manager=manager,
-    object_id="#list_size_input",
     placeholder_text="List size:",
     )
 
@@ -84,6 +80,9 @@ sorted_button = pygame_gui.elements.UIButton(
     text="Sorted",
     )
 
+# The Start Button for the Visualtion
+start_button = pygame_gui.elements.UIButton(relative_rect=pg.Rect((550, 600), (150, 25)), text="Start Sorting", manager=manager, object_id="#start_button")
+
 # Creating all the sorting option check boxes
 for position, name, option in [
     [(50, 400), "Bubble sort", "#option_bubble_sort"],
@@ -97,9 +96,6 @@ for position, name, option in [
     [(300, 550), "Quick Select Sort", "#option_quickSelect_sort"],
 ]:
     pygame_gui.elements.UICheckBox(relative_rect=pg.Rect(position, (25, 25)), text=name, manager=manager, object_id=option)
-
-# The Start Button for the Visualtion
-start_button = pygame_gui.elements.UIButton(relative_rect=pg.Rect((750, 600), (150, 25)), text="Start Sorting", manager=manager, object_id="#start_button")
 
 # Random List generate
 def random_list(size):
