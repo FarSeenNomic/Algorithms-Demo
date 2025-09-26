@@ -99,9 +99,9 @@ def randomList(size):
     else:
         return 0
 
-def timeComplexity(sortAlgo):
+def timeComplexity(sortAlgo, target):
     start = time.perf_counter()
-    sortAlgo
+    sortAlgo(target)
     end = time.perf_counter()
     timePassed = end - start
     timePassed = timePassed * 1000
@@ -142,7 +142,7 @@ def StartWindow():
                         temp_list = json.loads(entered_list)
                         temp_algo = {}
                         for key, value in algo_list.items():
-                            temp_algo[key] = timeComplexity(value(temp_list))
+                            temp_algo[key] = timeComplexity(value, temp_list.copy())
                         algo_names = list(temp_algo.keys())
                         algo_times = list(temp_algo.values())
                         ply.figure(figsize=(10, 6))
