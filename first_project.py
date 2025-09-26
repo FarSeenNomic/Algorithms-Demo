@@ -55,33 +55,19 @@ random_button = pygame_gui.elements.UIButton(relative_rect=pg.Rect((200, 250), (
 # Create the randomly generated sorted list button
 sorted_button = pygame_gui.elements.UIButton(relative_rect=pg.Rect((350, 250), (100, 25)), text="Sorted", manager=manager, object_id="#sorted_button")
 
-# Creating all the Sorting option check boxs
-# Bubble Sort
-check_bubble_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((50, 400), (25, 25)), text="Bubble sort", manager=manager, object_id="#option_bubble_sort")
-
-# Insertion Sort
-check_insertion_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((50, 450), (25, 25)), text="Insertion Sort", manager=manager, object_id="#option_insertion_sort")
-
-# Merge Sort
-check_merge_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((50, 500), (25, 25)), text="Merge Sort", manager=manager, object_id="#option_merge_sort")
-
-# Quick Sort
-check_quick_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((50, 550), (25, 25)), text="Quick Sort", manager=manager, object_id="#option_quick_sort")
-
-# Heap Sort
-check_heap_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((50, 600), (25, 25)), text="Heap Sort", manager=manager, object_id="#option_heap_sort")
-
-# Counting Sort
-check_counting_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((300, 400), (25, 25)), text="Counting Sort", manager=manager, object_id="#option_counting_sort")
-
-# Radix Sort
-check_radix_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((300, 450), (25, 25)), text="Radix Sort", manager=manager, object_id="#option_radix_sort")
-
-# Bucket Sort
-check_bucket_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((300, 500), (25, 25)), text="Bucket Sort", manager=manager, object_id="#option_bucket_sort")
-
-# Quick Select Sort
-check_quickSelect_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((300, 550), (25, 25)), text="Quick Select Sort", manager=manager, object_id="#option_quickSelect_sort")
+# Creating all the sorting option check boxes
+for position, name, option in [
+    [(50, 400), "Bubble sort", "#option_bubble_sort"],
+    [(50, 450), "Insertion Sort", "#option_insertion_sort"],
+    [(50, 500), "Merge Sort", "#option_merge_sort"],
+    [(50, 550), "Quick Sort", "#option_quick_sort"],
+    [(50, 600), "Heap Sort", "#option_heap_sort"],
+    [(300, 400), "Counting Sort", "#option_counting_sort"],
+    [(300, 450), "Radix Sort", "#option_radix_sort"],
+    [(300, 500), "Bucket Sort", "#option_bucket_sort"],
+    [(300, 550), "Quick Select Sort", "#option_quickSelect_sort"],
+]:
+    pygame_gui.elements.UICheckBox(relative_rect=pg.Rect(position, (25, 25)), text=name, manager=manager, object_id=option)
 
 # The Start Button for the Visualtion
 start_button = pygame_gui.elements.UIButton(relative_rect=pg.Rect((750, 600), (150, 25)), text="Start Sorting", manager=manager, object_id="#start_button")
@@ -101,6 +87,9 @@ def time_complexity(sorting_algorithm, target):
     time_delta *= 1000
     return round(time_delta, 6)
 
+def cull_str(li, length=1000):
+    return str(li[:length])
+
 # Setting Star Window
 def start_window():
     while True:
@@ -117,7 +106,7 @@ def start_window():
                     # Only runs if these is a text input in the box
                     if entered_size:
                         current_list = random_list(int(entered_size)) # Creats the random list
-                        List_Input.set_text(str(current_list)) # Sets the random list to be displayed in the text box
+                        List_Input.set_text(cull_str(current_list)) # Sets the random list to be displayed in the text box
                         pg.display.flip()
                 # The Sorted Button is pressed
                 if event.ui_object_id == "#sorted_button":
@@ -125,8 +114,8 @@ def start_window():
                     if entered_size:
                         current_list = random_list(int(entered_size)) # Makes a random list
                         current_list.sort() # Has the random list sorted from lowest to highest
-                        print(current_list)
-                        List_Input.set_text(str(current_list)) # Sets the list to be displayed in the textbox
+                        print(f"{current_list=}")
+                        List_Input.set_text(cull_str(current_list)) # Sets the list to be displayed in the textbox
                         pg.display.flip()
                 # The Start button is pressed
                 if event.ui_object_id == "#start_button":
