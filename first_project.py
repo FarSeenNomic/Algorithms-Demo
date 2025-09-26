@@ -4,11 +4,12 @@
 
 import pygame as pg
 import pygame_gui
-import matplotlib 
+import matplotlib.pyplot as ply
 import time
 import sys
 import random
 import algorithms
+import json
 
 
 
@@ -38,8 +39,8 @@ project_title = pygame_gui.elements.UILabel(relative_rect=pg.Rect((500, 10), (20
 
 #Input Instructions
 input_title = pygame_gui.elements.UILabel(
-    relative_rect=pg.Rect((10, 75), (400, 25)),  # Position and size
-    text="Input a list of numbers seperated by commas",
+    relative_rect=pg.Rect((10, 75), (510, 25)),  # Position and size
+    text="Input a list of numbers seperated by commas and begins and starts with []",
     manager=manager
     )
 
@@ -87,20 +88,24 @@ check_bucket_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((300, 5
 # Quick Select Sort
 check_quickSelect_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((300, 550), (25, 25)), text="Quick Select Sort", manager=manager, object_id="#option_quickSelect_sort")
 
-# Binary Search Sort
-check_binarySearch_sort = pygame_gui.elements.UICheckBox(relative_rect=pg.Rect((300, 600), (25, 25)), text="Binary Search Sort", manager=manager, object_id="#option_binarySearch_sort")
-
 # The Start Button for the Visualtion
 start_button = pygame_gui.elements.UIButton(relative_rect=pg.Rect((750, 600), (150, 25)), text="Start Sorting", manager=manager, object_id="#start_button")
 
 # Random List generate
 def randomList(size):
     if isinstance(size, int) :
-        randList = [random.randint(0, 1000) for _ in range(size)]
+        randList = [random.randint(0, 100) for _ in range(size)]
         return randList
     else:
         return 0
-    
+
+def timeComplexity(sortAlgo):
+    start = time.perf_counter()
+    sortAlgo
+    end = time.perf_counter()
+    timePassed = end - start
+    timePassed = timePassed * 1000
+    return round(timePassed, 6)
 
 #Setting Star Window
 def StartWindow():
@@ -133,30 +138,44 @@ def StartWindow():
                 if event.ui_object_id == "#start_button":
                     entered_list = List_Input.get_text() # Gets the list input 
                     if entered_list:
-                        print("works")
-                        # viusual algo
+                        r = algorithms.sorts
+                        temp_list = json.loads(entered_list)
+                        temp_algo = {}
+                        for key, value in algo_list.items():
+                            temp_algo[key] = timeComplexity(value(temp_list))
+                        algo_names = list(temp_algo.keys())
+                        algo_times = list(temp_algo.values())
+                        ply.figure(figsize=(10, 6))
+                        ply.bar(algo_names, algo_times, color="skyblue")
+
+                        ply.xlabel("Sorting Algorithms")
+                        ply.ylabel("Time Complexity (milliseconds)")
+                        ply.title(f"Sorting Algorithm Preformance For a List of {entered_size}")
+                        ply.xticks(rotation=45)
+                        ply.tight_layout()
+                        ply.show()
+                        
+                        
             # When a box is checked it adds the sorting algorithm to the algo list
             if event.type == pygame_gui.UI_CHECK_BOX_CHECKED:
                 if event.ui_object_id == "#option_bubble_sort":
-                    algo_list["Bubble Sort"] = "Bubble sort algo"
+                    algo_list["Bubble Sort"] = algorithms.bubble_sort
                 if event.ui_object_id == "#option_insertion_sort":
-                    algo_list["Insertion Sort"] = "Insertion Sort algo"
+                    algo_list["Insertion Sort"] = algorithms.insertion_sort
                 if event.ui_object_id == "#option_merge_sort":
-                    algo_list["Merge Sort"] = "Merge sort algo"
+                    algo_list["Merge Sort"] = algorithms.mergesort
                 if event.ui_object_id == "#option_quick_sort":
-                    algo_list["Quick Sort"] = "Quick Sort algo"
+                    algo_list["Quick Sort"] = algorithms.quicksort
                 if event.ui_object_id == "#option_heap_sort":
-                    algo_list["Heap Sort"] = "Heap sort algo"
+                    algo_list["Heap Sort"] = algorithms.heapsort
                 if event.ui_object_id == "#option_counting_sort":
-                    algo_list["Counting Sort"] = "Counting Sort algo"
+                    algo_list["Counting Sort"] = algorithms.counting_sort
                 if event.ui_object_id == "#option_radix_sort":
-                    algo_list["Radix Sort"] = "Radix Sort algo"
+                    algo_list["Radix Sort"] = algorithms.radix_sort_py
                 if event.ui_object_id == "#option_bucket_sort":
-                    algo_list["Bucket Sort"] = "Bucket Sort algo"
+                    algo_list["Bucket Sort"] = algorithms.bubble_sort
                 if event.ui_object_id == "#option_quickSelect_sort":
-                    algo_list["Quick Select Sort"] = "Quick Select sort algo"
-                if event.ui_object_id == "option_binarySearch_sort":
-                    algo_list["Binary Search Sort"] = "Binary Search Sort algo"
+                    algo_list["Quick Select Sort"] = algorithms.selection_sort
             # When the checkbox is uncheck it removes the algorithm from the algolist
             if event.type == pygame_gui.UI_CHECK_BOX_UNCHECKED:
                 if event.ui_object_id == "#option_bubble_sort":
@@ -177,8 +196,6 @@ def StartWindow():
                     del algo_list["Bucket Sort"]
                 if event.ui_object_id == "#option_quickSelect_sort":
                     del algo_list["Quick Select Sort"]
-                if event.ui_object_id == "option_binarySearch_sort":
-                    del algo_list["Binary Search Sort"]
 
 
             manager.process_events(event)
@@ -194,3 +211,4 @@ def StartWindow():
 # Setting up randomw Button
 
 StartWindow()
+
