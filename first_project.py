@@ -181,7 +181,7 @@ def start_window():
                 if event.ui_object_id == "#option_radix_sort":
                     algo_list["Radix Sort"] = algorithms.radix_sort_py
                 if event.ui_object_id == "#option_bucket_sort":
-                    algo_list["Bucket Sort"] = algorithms.bubble_sort
+                    algo_list["Bucket Sort"] = algorithms.bucket_sort
                 if event.ui_object_id == "#option_quickSelect_sort":
                     algo_list["Select Sort"] = algorithms.selection_sort
             # When the checkbox is uncheck it removes the algorithm from the algolist
