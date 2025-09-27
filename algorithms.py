@@ -3,7 +3,6 @@ Author: Anton Hirschl
 Date: 2025-09-13
 Class: CPSC 335
 """
-import numpy as np
 import math
 
 def network_sort(arr, o=0):
@@ -226,31 +225,6 @@ def heapsort(arr):
 
     return arr
 
-def heapsort_np(pyarr):
-    arr = np.array(pyarr)
-    def heapify(n, i):
-        largest = i
-        left = 2*i + 1
-        right = 2*i + 2
-
-        if left < n and arr[left] > arr[largest]:
-            largest = left
-        if right < n and arr[right] > arr[largest]:
-            largest = right
-        if largest != i:
-            arr[i], arr[largest] = arr[largest], arr[i]
-            heapify(n, largest)
-    
-    n = len(arr)
-    for i in range(n // 2-1, -1, -1):
-        heapify(n, i)
-
-    for end in range(n-1, 0, -1):
-        arr[0], arr[end] = arr[end], arr[0]
-        heapify(end, 0)
-
-    return arr
-
 def insertion_sort(arr):
     n = len(arr)
     for i in range(1, n):
@@ -360,7 +334,6 @@ def bucket_sort(arr, k=6, nextSort=None):
     for i in arr:
         # buckets' are arranged from min to max, not 0 to max
         buckets[int(k * (i-min(arr)) / r)].append(i)
-    print(buckets)
     for i in range(k):
         if nextSort:
             nextSort(buckets[i])
@@ -411,7 +384,7 @@ sorts = [
 #sorts = []
 
 if __name__ == '__main__':
-    import random, timeit, math
+    import random, timeit
     def time(func, size, num = 20):
         """
         Takes a sorting function func
