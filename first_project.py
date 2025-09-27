@@ -93,7 +93,7 @@ for position, name, option in [
     [(300, 400), "Counting Sort", "#option_counting_sort"],
     [(300, 450), "Radix Sort", "#option_radix_sort"],
     [(300, 500), "Bucket Sort", "#option_bucket_sort"],
-    [(300, 550), "Quick Select Sort", "#option_quickSelect_sort"],
+    [(300, 550), "Select Sort", "#option_quickSelect_sort"],
 ]:
     pygame_gui.elements.UICheckBox(relative_rect=pg.Rect(position, (25, 25)), text=name, manager=manager, object_id=option)
 
@@ -145,6 +145,7 @@ def start_window():
                 # The Start button is pressed
                 if event.ui_object_id == "#start_button":
                     entered_list = List_Input.get_text() # Gets the list input
+                    entered_size = len(entered_list)
                     if entered_list:
                         #r = algorithms.sorts
                         temp_list = json.loads(entered_list)
