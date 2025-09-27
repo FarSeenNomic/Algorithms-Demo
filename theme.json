@@ -1,0 +1,96 @@
+{
+    "defaults": {
+        "colours": {
+            "normal_bg": "#2b2b2b",
+            "hovered_bg": "#3c3f41",
+            "disabled_bg": "#1e1e1e",
+            "selected_bg": "#4e94ce",
+            "dark_bg": "#1a1a1a",
+
+            "normal_text": "#dcdcdc",
+            "hovered_text": "#ffffff",
+            "selected_text": "#ffffff",
+            "disabled_text": "#808080",
+
+            "link_text": "#61afef",
+            "link_hover": "#86caff",
+            "link_selected": "#ffffff",
+
+            "text_shadow": "#000000",
+
+            "normal_border": "#5a5a5a",
+            "hovered_border": "#a9b7c6",
+            "disabled_border": "#3c3f41",
+            "selected_border": "#61afef",
+            "active_border": "#61afef",
+
+            "filled_bar": "#61afef",
+            "unfilled_bar": "#3a3a3a"
+        }
+    },
+
+    "button": {
+        "colours": {
+            "normal_bg": "#3c3f41",
+            "hovered_bg": "#4e5254",
+            "disabled_bg": "#2b2b2b",
+            "selected_bg": "#61afef",
+            "active_bg": "#61afef",
+
+            "normal_text": "#dcdcdc",
+            "hovered_text": "#ffffff",
+            "selected_text": "#ffffff",
+            "active_text": "#ffffff",
+            "disabled_text": "#6d6d6d",
+
+            "normal_border": "#5a5a5a",
+            "hovered_border": "#a9b7c6",
+            "disabled_border": "#3c3f41",
+            "selected_border": "#61afef",
+            "active_border": "#61afef"
+        },
+        "misc": {
+            "tool_tip_delay": "0.8"
+        }
+    },
+
+    "UILabel": {
+        "colours": {
+            "text": "#ffffff"
+        }
+    },
+
+    "UITextEntryBox": {
+        "colours": {
+            "normal_bg": "#3c3f41",
+            "hovered_bg": "#35393e",
+            "selected_bg": "#3c3f41",
+            "text": "#ffffff",
+            "selected_text": "#ffffff",
+            "placeholder_text": "#aaaaaa"
+        }
+    },
+
+    "UIEntryLine": {
+        "colours": {
+            "normal_bg": "#808080",
+            "text": "#ffffff",
+            "placeholder_text": "#888888"
+        }
+    },
+
+    "UICheckBox": {
+        "colours": {
+            "text": "#ffffff",
+            "box": "#3c3f41",
+            "box_hover": "#4e5254",
+            "box_selected": "#61afef"
+        }
+    },
+
+    "UIPanel": {
+        "colours": {
+            "background": "#1a1a1a"
+        }
+    }
+}

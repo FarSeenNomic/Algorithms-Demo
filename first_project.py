@@ -23,10 +23,10 @@ clock = pg.time.Clock()
 algo_list = {}
 
 # Setting GUI Maneger
-manager = pygame_gui.UIManager((width, height))
+manager = pygame_gui.UIManager((width, height), "theme.json")
 
 # Define colors
-white = (255, 255, 255)
+dark_gray = (30, 30, 30)
 #black = (0, 0, 0)
 #light_blue = (173, 216, 230)
 
@@ -182,7 +182,7 @@ def start_window():
                 if event.ui_object_id == "#option_bucket_sort":
                     algo_list["Bucket Sort"] = algorithms.bubble_sort
                 if event.ui_object_id == "#option_quickSelect_sort":
-                    algo_list["Quick Select Sort"] = algorithms.selection_sort
+                    algo_list["Select Sort"] = algorithms.selection_sort
             # When the checkbox is uncheck it removes the algorithm from the algolist
             if event.type == pygame_gui.UI_CHECK_BOX_UNCHECKED:
                 if event.ui_object_id == "#option_bubble_sort":
@@ -202,11 +202,11 @@ def start_window():
                 if event.ui_object_id == "#option_bucket_sort":
                     del algo_list["Bucket Sort"]
                 if event.ui_object_id == "#option_quickSelect_sort":
-                    del algo_list["Quick Select Sort"]
+                    del algo_list["Select Sort"]
 
             manager.process_events(event)
         manager.update(UI_REFRESH_RATE)
-        screen.fill(white)
+        screen.fill(dark_gray)
         manager.draw_ui(screen)
         pg.display.flip()
 
